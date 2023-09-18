@@ -3,13 +3,14 @@
     @decode="onDecode"
     @loaded="onLoaded"
   ></StreamBarcodeReader>
-  <!-- <h4>{{ decodedText }}</h4> -->
+   <h5>{{ decodedText }}</h5>
 </template>
 <script setup>
 import { ref } from 'vue'
 import { StreamBarcodeReader } from 'vue-barcode-reader'
 
 const decodedText = ref('')
+const emit = defineEmits(['closeDialog'])
 
 const onLoaded = () => {
   console.log('loaded')
@@ -17,6 +18,7 @@ const onLoaded = () => {
 
 const onDecode = (text) => {
   decodedText.value = text
-  console.log(`Decode text from QR code is ${text}`)
+  // console.log(`Decode text from QR code is ${text}`)
+  emit('closeDialog', { close: false, codigo: decodedText })
 }
 </script>

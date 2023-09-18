@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page class="q-ma-md">
     <h4>Minhas vendas</h4>
     <div class="row">
       <div class="col-xs-12 col-sm-4 col-md-6">
