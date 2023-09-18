@@ -62,7 +62,17 @@
           </q-card>
         </div>
       </div>
-    <q-btn @click="getProduto" color="orange" class="full-width q-ma-md q-pa-md btn-search" icon="search" label="Buscar Produto" :rounded="true" :size="600"/>
+      <div v-else>
+        <q-card class="my-card flex justify-center">
+          <q-img src="https://media.tenor.com/8E3SIU76kHgAAAAC/barcode-scan.gif" width="200px" height="150px"  class="justify-center"/>
+
+          <q-card-section>
+            <div class="text-subtitle3"> Digite o codigo do produto ou escaneie com a Camera o codgio de Barras do produto</div>
+            <!-- <div class="text-subtitle2"> </div> -->
+          </q-card-section>
+        </q-card>
+      </div>
+    <q-btn @click="getProduto" color="orange" class="full-width q-ma-md q-pa-md btn-search" icon="search" label="Buscar Produto" :rounded="true" :outline="codigo" :size="600"/>
     <q-dialog v-model="alert" >
       <q-card style="min-width: 350px">
         <q-card-section>

@@ -3,7 +3,6 @@
     @decode="onDecode"
     @loaded="onLoaded"
   ></StreamBarcodeReader>
-   <h5>{{ decodedText }}</h5>
 </template>
 <script setup>
 import { ref } from 'vue'
