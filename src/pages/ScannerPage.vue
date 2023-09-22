@@ -122,7 +122,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6  ">
               <div class="q-ma-md q-gutter-md">
-                <q-btn outline @click="dialogEstoqueFilial = !dialogEstoqueFilial" color="orange full-width" size="lg" align="between">
+                <q-btn outline @click="getConsultaSaldos" color="orange full-width" size="lg" align="between">
                   <div>Estoques Filiais</div>
                   <q-icon  size="1.5em" name="add_business" />
                 </q-btn>
@@ -284,6 +284,7 @@
           <q-tooltip class="bg-white text-primary">Close</q-tooltip>
         </q-btn>
       </q-bar>
+      <q-btn @click="getConsultaSaldos">list</q-btn>
       <DialogProduct :detalhes="estoqueFilial" />
     </q-card>
   </q-dialog>
@@ -376,6 +377,7 @@ export default {
       codigo: ref(''),
       tab: ref('estoque'),
       produtos: [],
+      estoqueFiliais: [],
       produto: {
         nome: 'TV Smart 50"',
         detalhes: 'Smart Tv Samsumg HD20050 OLED',
@@ -438,6 +440,20 @@ export default {
           })
         })
       console.log(this.produtos)
+    },
+
+    getConsultaSaldos () {
+      this.dialogEstoqueFilial = !this.dialogEstoqueFilial
+      this.estoqueFiliais = []
+      const url = 'https://10.122.0.254:8443/HostCombateAPP/ConsultaSaldosPorProduto?produto=' + this.codigo
+
+      axios.get(url)
+        .then((response) => {
+          response.data.forEach(element => {
+            this.estoqueFiliais.push(element)
+          })
+        })
+      console.log(this.estoqueFiliais)
     },
 
     getProduto () {
