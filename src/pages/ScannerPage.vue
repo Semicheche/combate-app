@@ -106,15 +106,15 @@
                   <div>Ficha Tecnica</div>
                   <q-icon  size="1.5em" name="feed" />
                 </q-btn>
-                <q-btn outline color="orange full-width" size="lg" align="between">
+                <q-btn outline @click="dialogImagem = !dialogImagem" color="orange full-width" size="lg" align="between">
                   <div>Imagem do produto</div>
                   <q-icon  size="1.5em" name="image" />
                 </q-btn>
-                <q-btn outline color="orange full-width" size="lg" align="between">
+                <q-btn outline @click="dialogArgVenda = !dialogArgVenda" color="orange full-width" size="lg" align="between">
                   <div>Argumentos de Venda</div>
                   <q-icon  size="1.5em" name="psychology_alt" />
                 </q-btn>
-                <q-btn outline color="orange full-width" size="lg" align="between">
+                <q-btn outline @click="dialogProdSimilar = !dialogProdSimilar" color="orange full-width" size="lg" align="between">
                   <div>Produto Similares</div>
                   <q-icon  size="1.5em" name="category" />
                 </q-btn>
@@ -122,15 +122,15 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6  ">
               <div class="q-ma-md q-gutter-md">
-                <q-btn outline color="orange full-width" size="lg" align="between">
+                <q-btn outline @click="dialogEstoqueFilial = !dialogEstoqueFilial" color="orange full-width" size="lg" align="between">
                   <div>Estoques Filiais</div>
                   <q-icon  size="1.5em" name="add_business" />
                 </q-btn>
-                <q-btn outline color="orange full-width" size="lg" align="between">
+                <q-btn outline @click="dialogAddProdutos = !dialogAddProdutos" color="orange full-width" size="lg" align="between">
                   <div>Produtos Adicionais</div>
                   <q-icon  size="1.5em" name="add_shopping_cart" />
                 </q-btn>
-                <q-btn outline color="orange full-width" size="lg" align="between">
+                <q-btn outline @click="dialogDesconto = !dialogDesconto" color="orange full-width" size="lg" align="between">
                   <div>Liberar Desconto</div>
                   <q-icon  size="1.5em" name="percent" />
                 </q-btn>
@@ -158,42 +158,192 @@
       </q-card>
     </q-dialog>
 
-    <!-- FICHA TECNICA -->
+  <!-- FICHA TECNICA DIALOG-->
     <q-dialog
-      v-model="dialogFicha"
-      persistent
-      :maximized="fichaTecnica"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card class="">
-          <q-bar class="bg-orange">
-            <q-space />
+  v-model="dialogFicha"
+  persistent
+  :maximized="fichaTecnica"
+  transition-show="slide-up"
+  transition-hide="slide-down"
+  >
+  <q-card class="">
+      <q-bar class="bg-orange">
+        <q-space />
 
-            <q-btn dense flat icon="minimize" @click="fichaTecnica = false" :disable="!fichaTecnica">
-              <q-tooltip v-if="fichaTecnica" class="bg-white text-primary">Minimize</q-tooltip>
-            </q-btn>
-            <q-btn dense flat icon="crop_square" @click="fichaTecnica = true" :disable="fichaTecnica">
-              <q-tooltip v-if="!fichaTecnica" class="bg-white text-primary">Maximize</q-tooltip>
-            </q-btn>
-            <q-btn dense flat icon="close" v-close-popup>
-              <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-            </q-btn>
-          </q-bar>
+        <q-btn dense flat icon="minimize" @click="fichaTecnica = false" :disable="!fichaTecnica">
+          <q-tooltip v-if="fichaTecnica" class="bg-white text-primary">Minimize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="crop_square" @click="fichaTecnica = true" :disable="fichaTecnica">
+          <q-tooltip v-if="!fichaTecnica" class="bg-white text-primary">Maximize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </q-bar>
+      <DialogProduct :detalhes="descricaoFicha" />
+    </q-card>
+  </q-dialog>
 
-          <q-card-section>
-            <div class="text-h6">Ficha Tecnica</div>
-          </q-card-section>
+   <!-- IMAGEM DIALOG-->
+  <q-dialog
+  v-model="dialogImagem"
+  persistent
+  :maximized="imagem"
+  transition-show="slide-up"
+  transition-hide="slide-down"
+  >
+  <q-card class="">
+      <q-bar class="bg-orange">
+        <q-space />
 
-          <q-card-section class="q-pt-none">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
-          </q-card-section>
-        </q-card>
-    </q-dialog>
+        <q-btn dense flat icon="minimize" @click="imagem = false" :disable="!imagem">
+          <q-tooltip v-if="imagem" class="bg-white text-primary">Minimize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="crop_square" @click="imagem = true" :disable="imagem">
+          <q-tooltip v-if="!imagem" class="bg-white text-primary">Maximize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </q-bar>
+      <DialogProduct :detalhes="descricaoImagem" />
+    </q-card>
+  </q-dialog>
+
+  <!-- ARGUMENTO VENDA DIALOG-->
+  <q-dialog
+  v-model="dialogArgVenda"
+  persistent
+  :maximized="argVenda"
+  transition-show="slide-up"
+  transition-hide="slide-down"
+  >
+  <q-card class="">
+      <q-bar class="bg-orange">
+        <q-space />
+
+        <q-btn dense flat icon="minimize" @click="argVenda = false" :disable="!argVenda">
+          <q-tooltip v-if="argVenda" class="bg-white text-primary">Minimize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="crop_square" @click="argVenda = true" :disable="argVenda">
+          <q-tooltip v-if="!argVenda" class="bg-white text-primary">Maximize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </q-bar>
+      <DialogProduct :detalhes="argumentoVenda" />
+    </q-card>
+  </q-dialog>
+
+  <!-- PRODUTOS SIMILARES DIALOG-->
+  <q-dialog
+  v-model="dialogProdSimilar"
+  persistent
+  :maximized="prodSimilar"
+  transition-show="slide-up"
+  transition-hide="slide-down"
+  >
+  <q-card class="">
+      <q-bar class="bg-orange">
+        <q-space />
+
+        <q-btn dense flat icon="minimize" @click="prodSimilar = false" :disable="!prodSimilar">
+          <q-tooltip v-if="prodSimilar" class="bg-white text-primary">Minimize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="crop_square" @click="prodSimilar = true" :disable="prodSimilar">
+          <q-tooltip v-if="!prodSimilar" class="bg-white text-primary">Maximize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </q-bar>
+      <DialogProduct :detalhes="produtosSimilares" />
+    </q-card>
+  </q-dialog>
+
+  <!-- ESTOQUE FILIAIS DIALOG-->
+  <q-dialog
+  v-model="dialogEstoqueFilial"
+  persistent
+  :maximized="estFilial"
+  transition-show="slide-up"
+  transition-hide="slide-down"
+  >
+  <q-card class="">
+      <q-bar class="bg-orange">
+        <q-space />
+
+        <q-btn dense flat icon="minimize" @click="estFilial = false" :disable="!estFilial">
+          <q-tooltip v-if="estFilial" class="bg-white text-primary">Minimize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="crop_square" @click="estFilial = true" :disable="estFilial">
+          <q-tooltip v-if="!estFilial" class="bg-white text-primary">Maximize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </q-bar>
+      <DialogProduct :detalhes="estoqueFilial" />
+    </q-card>
+  </q-dialog>
+
+  <!-- PRODUTOS ADICIONAIS DIALOG-->
+  <q-dialog
+  v-model="dialogAddProdutos"
+  persistent
+  :maximized="addProdutos"
+  transition-show="slide-up"
+  transition-hide="slide-down"
+  >
+  <q-card class="">
+      <q-bar class="bg-orange">
+        <q-space />
+
+        <q-btn dense flat icon="minimize" @click="addProdutos = false" :disable="!addProdutos">
+          <q-tooltip v-if="addProdutos" class="bg-white text-primary">Minimize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="crop_square" @click="addProdutos = true" :disable="addProdutos">
+          <q-tooltip v-if="!addProdutos" class="bg-white text-primary">Maximize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </q-bar>
+      <DialogProduct :detalhes="produtosAdicionais" />
+    </q-card>
+  </q-dialog>
+
+   <!-- DESCONTOS PRODUTOS DIALOG-->
+   <q-dialog
+  v-model="dialogDesconto"
+  persistent
+  :maximized="desconto"
+  transition-show="slide-up"
+  transition-hide="slide-down"
+  >
+  <q-card class="">
+      <q-bar class="bg-orange">
+        <q-space />
+
+        <q-btn dense flat icon="minimize" @click="desconto = false" :disable="!desconto">
+          <q-tooltip v-if="desconto" class="bg-white text-primary">Minimize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="crop_square" @click="desconto = true" :disable="desconto">
+          <q-tooltip v-if="!desconto" class="bg-white text-primary">Maximize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </q-bar>
+      <DialogProduct :detalhes="solicitacaoDeconto" />
+    </q-card>
+  </q-dialog>
   </q-page>
 </template>
 <script >
 import BarcodeReader from 'src/components/BarcodeReader.vue'
+import DialogProduct from 'src/components/DialogProduct.vue'
 import { ref } from 'vue'
 import axios from 'axios'
 
@@ -201,8 +351,27 @@ export default {
   name: 'CameraVue',
   data () {
     return {
+      dialogImagem: ref(false),
+      imagem: ref(true),
+
       dialogFicha: ref(false),
       fichaTecnica: ref(true),
+
+      dialogArgVenda: ref(false),
+      argVenda: ref(true),
+
+      dialogProdSimilar: ref(false),
+      prodSimilar: ref(true),
+
+      dialogEstoqueFilial: ref(false),
+      estFilial: ref(true),
+
+      dialogAddProdutos: ref(false),
+      addProdutos: ref(true),
+
+      dialogDesconto: ref(false),
+      desconto: ref(true),
+
       alert: ref(false),
       codigo: ref(''),
       tab: ref('estoque'),
@@ -221,11 +390,40 @@ export default {
         qtdEstoqFilialDisponivel: 0,
         fabricante: null,
         descricao: null
+      },
+      descricaoFicha: {
+        titulo: 'Ficha Tecnica',
+        detalhes: 'Informação não disponivel'
+      },
+      descricaoImagem: {
+        titulo: 'Imagens do Produto',
+        detalhes: 'Informação não disponivel'
+      },
+      argumentoVenda: {
+        titulo: 'Argumentos de Venda do Produto',
+        detalhes: 'Informação não disponivel'
+      },
+      produtosSimilares: {
+        titulo: 'Produtos Similares',
+        detalhes: 'Informação não disponivel'
+      },
+      estoqueFilial: {
+        titulo: 'Estoques nas Filias',
+        detalhes: 'Informação não disponivel'
+      },
+      produtosAdicionais: {
+        titulo: 'Produtos Adicionais',
+        detalhes: 'Informação não disponivel'
+      },
+      solicitacaoDeconto: {
+        titulo: 'Descontos do Produto',
+        detalhes: 'Informação não disponivel'
       }
     }
   },
   components: {
-    BarcodeReader
+    BarcodeReader,
+    DialogProduct
   },
   methods: {
     getListProdutos () {
