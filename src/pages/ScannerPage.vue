@@ -435,8 +435,9 @@ export default {
   },
   methods: {
     url_backend () {
-      return 'https://10.122.0.254:8443'
-      // return 'http://10.155.0.39:8080'
+      return 'https://localhost:8888'
+      // return 'https://10.122.0.254:8443' servidor solucorpt
+      // return 'http://10.155.0.39:8080' local
     },
 
     getListProdutos () {
