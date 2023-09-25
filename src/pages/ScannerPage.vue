@@ -9,7 +9,7 @@
           </template>
     </q-input>
     <section class="q-ma-md">
-      <q-btn @click="getListProdutos" color="orange" class="full-width q-ma-md q-pa-md " icon="search" label="Buscar Produto" :rounded="true" :outline="codigo" :size="600"/>
+      <q-btn @click="getListProdutos" color="orange" class="full-width q-ma-md q-pa-md " icon="search" label="Buscar Produto" :rounded="true" :outline="codigo" :size="600" :loading="produtos.length"/>
     </section>
     <div v-if="produtos.length > 0">
       <div v-for="(prod, index) in produtos" :key="index">
@@ -102,7 +102,7 @@
         <div class="row justify-aroud">
             <div class="col-xs-12 col-sm-12 col-md-6">
               <div class="q-ma-md q-gutter-md">
-                <q-btn outline @click="dialogFicha = !dialogFicha" color="orange text-black full-width" size="lg" align="between">
+                <q-btn outline @click="getProdutoFichaTecnica()" color="orange text-black full-width" size="lg" align="between">
                   <div>Ficha Tecnica</div>
                   <q-icon  size="1.5em" name="feed" />
                 </q-btn>
@@ -284,7 +284,6 @@
           <q-tooltip class="bg-white text-primary">Close</q-tooltip>
         </q-btn>
       </q-bar>
-      <q-btn @click="getConsultaSaldos">list</q-btn>
       <DialogProduct :detalhes="estoqueFilial" />
     </q-card>
   </q-dialog>
@@ -377,7 +376,6 @@ export default {
       codigo: ref(''),
       tab: ref('estoque'),
       produtos: [],
-      estoqueFiliais: [],
       produto: {
         nome: 'TV Smart 50"',
         detalhes: 'Smart Tv Samsumg HD20050 OLED',
@@ -395,7 +393,8 @@ export default {
       },
       descricaoFicha: {
         titulo: 'Ficha Tecnica',
-        detalhes: 'Informação não disponivel'
+        detalhes: 'Informação não disponivel',
+        descricao: ''
       },
       descricaoImagem: {
         titulo: 'Imagens do Produto',
@@ -411,7 +410,14 @@ export default {
       },
       estoqueFilial: {
         titulo: 'Estoques nas Filias',
-        detalhes: 'Informação não disponivel'
+        detalhes: 'Informação não disponivel',
+        produtosEstoqueCol: [
+          { name: 'disponivel', label: 'Disp', align: 'left', field: 'disponivel', sortable: true },
+          { name: 'reserva', label: 'Reserva', align: 'left', field: 'reserva', sortable: true },
+          { name: 'quantidade', label: 'Qtde', align: 'left', field: 'quantidade', sortable: true },
+          { name: 'filial', label: 'Filial', align: 'left', field: 'filial', sortable: true }
+        ],
+        produtosEstoque: []
       },
       produtosAdicionais: {
         titulo: 'Produtos Adicionais',
@@ -428,9 +434,14 @@ export default {
     DialogProduct
   },
   methods: {
+    url_backend () {
+      return 'https://10.122.0.254:8443'
+      // return 'http://10.155.0.39:8080'
+    },
+
     getListProdutos () {
       this.produtos = []
-      const url = 'https://10.122.0.254:8443/HostCombateAPP/ConsultaProdutos?consultar=' + this.codigo
+      const url = this.url_backend() + '/HostCombateAPP/ConsultaProdutos?consultar=' + this.codigo
 
       axios.get(url)
         .then((response) => {
@@ -442,22 +453,29 @@ export default {
       console.log(this.produtos)
     },
 
-    getConsultaSaldos () {
-      this.dialogEstoqueFilial = !this.dialogEstoqueFilial
-      this.estoqueFiliais = []
-      const url = 'https://10.122.0.254:8443/HostCombateAPP/ConsultaSaldosPorProduto?produto=' + this.codigo
+    async getConsultaSaldos () {
+      this.estoqueFilial.produtosEstoque = []
+      const url = this.url_backend() + '/HostCombateAPP/ConsultaSaldosPorProduto?produto=' + this.codigo
 
-      axios.get(url)
+      await axios.get(url)
         .then((response) => {
           response.data.forEach(element => {
-            this.estoqueFiliais.push(element)
+            this.estoqueFilial.produtosEstoque.push(element)
           })
+
+          this.dialogEstoqueFilial = !this.dialogEstoqueFilial
         })
-      console.log(this.estoqueFiliais)
     },
 
-    getProduto () {
-      this.produto.id = this.codigo
+    async getProdutoFichaTecnica () {
+      const url = this.url_backend() + '/HostCombateAPP/ConsultaFichaTecnica?consultar=' + this.codigo
+
+      await axios.get(url)
+        .then((response) => {
+          this.descricaoFicha.descricao = response.data.descricao
+
+          this.dialogFicha = !this.dialogFicha
+        })
     },
 
     formatPrice (value) {

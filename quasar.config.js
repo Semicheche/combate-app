@@ -89,10 +89,10 @@ module.exports = configure(function (/* ctx */) {
       options: {
         options: {
           // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
-          key: '/home/semicheche/certssl/CA/localhost/localhost.decrypted.key',
+          key: '/home/semicheche/certssl/combate/combate.com.key',
           // pfx: "/path/to/server.pfx",
-          cert: '/home/semicheche/certssl/CA/localhost.crt',
-          // ca: '/path/to/ca.pem',
+          cert: '/home/semicheche/certssl/combate/combate_cert/combate.com.crt',
+          ca: '/home/semicheche/certssl/combate/combate.com.pem',
           passphrase: 'webpack-dev-server' // do you need it?
         }
       }

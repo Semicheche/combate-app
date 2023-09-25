@@ -25,7 +25,7 @@ export default defineComponent({
   name: 'IndexPage',
   data () {
     return {
-      empresa: 'combate_max'
+      empresa: 'combate'
     }
   }
 })
