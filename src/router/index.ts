@@ -5,6 +5,7 @@ import {
   createWebHashHistory,
   createWebHistory
 } from 'vue-router'
+import { inject } from 'vue'
 
 import routes from './routes'
 
@@ -30,6 +31,12 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE)
+  })
+  Router.beforeEach(async (to, from) => {
+    // canUserAccess() returns `true` or `false`
+    console.log(inject('isloging'))
+    console.log(to)
+    console.log(from)
   })
 
   return Router

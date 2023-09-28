@@ -6,3 +6,12 @@ export interface Todo {
 export interface Meta {
   totalCount: number;
 }
+
+export interface User {
+  name: string;
+  senha: string;
+  codigoUsuario: number;
+  grupo: number;
+  filial: number;
+  isLoging: boolean;
+}

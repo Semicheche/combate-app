@@ -2,12 +2,17 @@ import { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   {
+    name: 'home',
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
+    redirect: { name: 'login' },
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: 'scanner', component: () => import('pages/ScannerPage.vue') },
-      { path: 'dashboard', component: () => import('pages/DashboardPage.vue') }
+      { name: 'login', path: '/login', component: () => import('pages/LoginPage.vue') },
+      { name: 'index', path: '/', component: () => import('pages/IndexPage.vue') },
+      { name: 'scanner', path: 'scanner', component: () => import('pages/ScannerPage.vue') },
+      { name: 'dashboard', path: 'dashboard', component: () => import('pages/DashboardPage.vue') },
+      { name: 'setup', path: 'setup', component: () => import('pages/SetupPage.vue') },
+      { name: 'detalehs', path: 'detalhes/:codigo', component: () => import('pages/DetalheProdutoPage.vue'), props: true }
     ]
   },
   // Always leave this as last one,

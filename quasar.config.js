@@ -9,6 +9,7 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require('quasar/wrappers')
+const envparser = require('./src/config/envparser.js')
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -57,7 +58,8 @@ module.exports = configure(function (/* ctx */) {
         node: 'node16'
       },
 
-      vueRouterMode: 'hash' // available values: 'hash', 'history'
+      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      env: envparser()
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,

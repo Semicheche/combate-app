@@ -8,18 +8,20 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev",
+    "dev": "quasar dev --host app.lojascombat.com.br",
     "build": "quasar build"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
     "@zxing/library": "^0.20.0",
     "axios": "^1.5.0",
+    "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.0",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
     "vue-barcode-reader": "^1.0.3",
     "vue-chartjs": "^5.2.0",
+    "vue-loading-overlay": "^6.0.3",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
@@ -29,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "autoprefixer": "^10.4.2",
+    "dotenv": "^16.3.1",
     "eslint": "^8.10.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.19.1",

@@ -17,8 +17,8 @@
             />
         </div>
       </q-card-section>
-      <q-card-actions align="center" class="q-mb-xl">
-      <q-btn class="bg-orange text-white full-width btn-search" label="Fechar" size="lg" v-close-popup />
+      <q-card-actions align="right" class="q-ma-md fixed-button">
+      <q-btn class="bg-orange text-white btn-search" label="" icon="expand_more" rounded size="xl" v-close-popup />
     </q-card-actions>
 </template>
 <script>
@@ -27,3 +27,10 @@ export default {
   props: ['detalhes']
 }
 </script>
+<style>
+.fixed-button  {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+</style>
