@@ -85,18 +85,16 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
-      https: true,
+      https: false,
       open: true, // opens browser window automatically
 
-      options: {
-        options: {
-          // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
-          key: '/home/semicheche/certssl/combate/combate.com.key',
-          // pfx: "/path/to/server.pfx",
-          cert: '/home/semicheche/certssl/combate/combate_cert/combate.com.crt',
-          ca: '/home/semicheche/certssl/combate/combate.com.pem',
-          passphrase: 'webpack-dev-server' // do you need it?
-        }
+      https: {
+        // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+        key: process.env.Q_PRIVATE.replaceAll("'", ''), // 'C:/CombateAPP/Qprivate.key',
+        // pfx: "/path/to/server.pfx",
+        cert: process.env.Q_CERTICADO.replaceAll("'", ''), // 'C:/CombateAPP/Qcertificado.crt',
+        ca: process.env.Q_CA.replaceAll("'", '') // 'C:/CombateAPP/Qca.pem',
+        // passphrase: 'webpack-dev-server' // do you need it?
       }
     },
 
