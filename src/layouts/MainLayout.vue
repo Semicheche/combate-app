@@ -110,7 +110,6 @@ export default defineComponent({
     const leftDrawerOpen = ref(false)
     const rightDrawerOpen = ref(false)
     const isloging = ref(false)
-    const $q = useQuasar()
 
     provide('isloging', isloging)
     return {
@@ -119,6 +118,7 @@ export default defineComponent({
       isloging,
       leftDrawerOpen,
       rightDrawerOpen,
+      $q: useQuasar(),
       toggleRightDrawer () {
         rightDrawerOpen.value = !rightDrawerOpen.value
       },

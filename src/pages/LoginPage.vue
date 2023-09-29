@@ -27,17 +27,39 @@
         </q-form>
       </div>
     </div>
+    <q-dialog v-model="msgError">
+      <q-card style="width: 350px">
+        <q-card-section class="bg-warning">
+          <div class="text-h4">Atenção</div>
+        </q-card-section>
+        <q-card-section class="row items-center no-wrap">
+          <div>
+            <p class="text-6">{{ msg }}</p>
+            <p>Verifique a senha ou o Usuario e tente novamente.</p>
+          </div>
+        </q-card-section>
+        <q-card-actions align="center">
+          <q-btn flat label="OK" color="orange" v-close-popup></q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, inject, provide } from 'vue'
+import axios from 'axios'
 import bycryptjs from 'bcryptjs'
 
 const usuario = ref('')
 const senha = ref('')
 const remember = ref(true)
 const hash = ref(null)
+const codigo = ref(null)
+const filial = ref(null)
+const grupo = ref(null)
+const msg = 'Sem msg'
+const msgError = ref(false)
 
 export default defineComponent({
   // name: 'PageName'
@@ -46,34 +68,77 @@ export default defineComponent({
       usuario,
       senha,
       remember,
+      codigo,
+      filial,
+      grupo,
       hash,
+      msg,
+      msgError,
       isloging: inject('isloging')
+    }
+  },
+  watch: {
+    remember (newRmember) {
+      if (!newRmember) {
+        localStorage.setItem('usuario', '')
+        localStorage.setItem('senha', '')
+        usuario.value = ''
+        senha.value = ''
+      }
     }
   },
   methods: {
     onSubmit () {
-      this.isloging = !this.isloging
-      if (this.remember) {
-        bycryptjs.hash(this.senha, 10, (err: never, res: never) => {
-          if (err) {
-            console.log('error ', err)
-          }
-          console.log('Sucesso ', res)
-          localStorage.setItem('senha', res)
-        })
-        console.log('ususaario')
-        console.log(usuario.value)
-        localStorage.setItem('usuario', usuario.value)
-      }
+      // SOLUCORPTI&senha=102030
+      const url = 'https://10.130.0.200:8443/HostCombateAPP/LogarUsuario?usuario=' + usuario.value.toUpperCase() + '&senha=' + senha.value
+      // alert(url)
+      axios.get(url)
+        .then((response) => {
+          // alert('aqui res')
+          if (response.data.filial != null) {
+            this.isloging = !this.isloging
+            codigo.value = response.data.codgio
+            filial.value = response.data.filial
+            grupo.value = response.data.grupo
 
-      provide('isloging', this.isloging)
-      this.$router.push('/')
+            localStorage.setItem('usuario', usuario.value)
+            localStorage.setItem('senha', senha.value)
+            // this.encriptyPass()
+
+            provide('isloging', this.isloging)
+            this.$router.push('/')
+          } else {
+            this.msg = usuario.value + ' ' + response.data.mensagem
+            msgError.value = !msgError.value
+            this.msg = response.data.mensagem
+          }
+        }).catch((error) => {
+          // alert(error)
+          if (error) {
+            this.msg = usuario.value + ' Sem Acesso '
+            msgError.value = !msgError.value
+          }
+          console.log(error)
+        })
+
+      if (this.remember) {
+        console.log(usuario.value)
+      }
     },
 
     getUser () {
-      // eslint-disable-next-line no-const-assign
       usuario.value = localStorage.getItem('usuario') ? JSON.stringify(localStorage.getItem('usuario')).replaceAll('"', '') : ''
       senha.value = localStorage.getItem('senha') ? JSON.stringify(localStorage.getItem('senha')).replaceAll('"', '') : ''
+    },
+
+    encriptyPass () {
+      bycryptjs.hash(this.senha, 10, (err: never, res: never) => {
+        if (res != null) {
+          localStorage.setItem('senha', res)
+        } else {
+          console.log(err)
+        }
+      })
     }
   },
   beforeMount () {
