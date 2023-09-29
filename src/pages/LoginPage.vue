@@ -35,7 +35,7 @@
         <q-card-section class="row items-center no-wrap">
           <div>
             <p class="text-6">{{ msg }}</p>
-            <p>Verifique a senha ou o Usuario e tente novamente.</p>
+            <p></p>
           </div>
         </q-card-section>
         <q-card-actions align="center">
@@ -58,7 +58,7 @@ const hash = ref(null)
 const codigo = ref(null)
 const filial = ref(null)
 const grupo = ref(null)
-const msg = 'Sem msg'
+let msg = 'Sem msg'
 const msgError = ref(false)
 
 export default defineComponent({
@@ -88,9 +88,22 @@ export default defineComponent({
     }
   },
   methods: {
+    url_backend () {
+      // Não sei pq o json Stringfy fode com a String e não consegui resolver enetão removi as " duplas da string
+      const backendServer = process.env.BACKEND_SERVER ? process.env.BACKEND_SERVER.replaceAll('"', '') : null
+      const port = process.env.BACKEND_PORT ? process.env.BACKEND_PORT.replaceAll('"', '') : null
+
+      if (backendServer == null) {
+        msgError.value = true
+        msg = 'SERVIDOR NÃO ESTA CONFIGURADO VERIFIQUE O SUPORTE'
+        return ''
+      }
+
+      return `${backendServer}:${port}`
+    },
     onSubmit () {
       // SOLUCORPTI&senha=102030
-      const url = 'https://10.130.0.200:8443/HostCombateAPP/LogarUsuario?usuario=' + usuario.value.toUpperCase() + '&senha=' + senha.value
+      const url = this.url_backend() + '/HostCombateAPP/LogarUsuario?usuario=' + usuario.value.toUpperCase() + '&senha=' + senha.value
       // alert(url)
       axios.get(url)
         .then((response) => {
@@ -115,7 +128,7 @@ export default defineComponent({
         }).catch((error) => {
           // alert(error)
           if (error) {
-            this.msg = usuario.value + ' Sem Acesso '
+            this.msg = usuario.value + ' Sem Acesso \n Verifique a senha ou o Usuario e tente novamente.'
             msgError.value = !msgError.value
           }
           console.log(error)
