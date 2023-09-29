@@ -11,6 +11,10 @@
 const { configure } = require('quasar/wrappers')
 const envparser = require('./src/config/envparser.js')
 
+const privateKey = process.env.Q_PRIVATE_KEY.replaceAll("'", '')
+const certificado = process.env.Q_CERTIFICADO.replaceAll("'", '')
+const caPem = process.env.Q_CA.replaceAll("'", '')
+
 module.exports = configure(function (/* ctx */) {
   return {
     eslint: {
@@ -90,10 +94,10 @@ module.exports = configure(function (/* ctx */) {
 
       https: {
         // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
-        key: process.env.Q_PRIVATE.replaceAll("'", ''), // 'C:/CombateAPP/Qprivate.key',
+        key: privateKey, // 'C:/CombateAPP/Qprivate.key',
         // pfx: "/path/to/server.pfx",
-        cert: process.env.Q_CERTICADO.replaceAll("'", ''), // 'C:/CombateAPP/Qcertificado.crt',
-        ca: process.env.Q_CA.replaceAll("'", '') // 'C:/CombateAPP/Qca.pem',
+        cert: certificado, // 'C:/CombateAPP/Qcertificado.crt',
+        ca: caPem // 'C:/CombateAPP/Qca.pem',
         // passphrase: 'webpack-dev-server' // do you need it?
       }
     },
