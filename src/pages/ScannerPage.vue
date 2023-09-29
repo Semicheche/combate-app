@@ -72,7 +72,7 @@
 <script >
 import BarcodeReader from 'src/components/BarcodeReader.vue'
 import Loading from 'vue-loading-overlay'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import axios from 'axios'
 
 const fallback = () => {
@@ -86,6 +86,7 @@ export default {
   name: 'CameraVue',
   setup () {
     return {
+      isloging: inject('isloging'),
       isLoading: ref(true),
       alert: ref(false),
       codigo: ref(''),
@@ -155,11 +156,18 @@ export default {
 
     getProdutosLocalStorage () {
       this.produtos = localStorage.produtos != null ? JSON.parse(localStorage.getItem('produtos')) : ref([])
+    },
+
+    isLogin () {
+      if (!this.isloging) {
+        this.$router.push('/login')
+      }
     }
   },
 
   beforeMount () {
     this.getProdutosLocalStorage()
+    this.isLogin()
   }
 
 }

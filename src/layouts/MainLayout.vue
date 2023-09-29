@@ -88,7 +88,7 @@ const linksList = [
     title: 'Scanner',
     caption: 'Consuta de Estoque e Preços',
     icon: 'qr_code_scanner',
-    link: 'scanner'
+    link: '/scanner'
   }
   // {
   //   title: 'Dashboard',
