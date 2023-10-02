@@ -74,7 +74,7 @@
                         </q-item-section>
 
                         <q-item-section>
-                          <q-item-label lines="1" class="text-bold">R$ {{ formatPrice(produto.precoVenda ?? 0 * (produto.comissao ?? 1 / 100)) }}</q-item-label>
+                          <q-item-label lines="1" class="text-bold">R$ {{ formatPrice(parseFloat(produto.precoVenda || '0') * (parseFloat(produto.comissao ?? '0') / 100)) }}</q-item-label>
                           <q-item-label >Comissão</q-item-label>
                         </q-item-section>
                       </q-item>
@@ -359,7 +359,7 @@ export default defineComponent({
         detalhes: 'Informação não disponivel',
         produtosEstoqueCol: [
           { name: 'disponivel', label: 'Disp', align: 'left', field: 'disponivel', sortable: true },
-          { name: 'reserva', label: 'Reserva', align: 'left', field: 'reserva', sortable: true },
+          { name: 'reserva', label: 'Res.', align: 'left', field: 'reserva', sortable: true },
           { name: 'quantidade', label: 'Qtde', align: 'left', field: 'quantidade', sortable: true },
           { name: 'filial', label: 'Filial', align: 'left', field: 'filial', sortable: true }
         ],

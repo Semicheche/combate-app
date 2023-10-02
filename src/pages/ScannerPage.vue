@@ -124,7 +124,6 @@ export default {
     getListProdutos () {
       this.isLoading = ref(!this.isLoading)
       if (this.codigo == null || this.codigo.trim() === '') {
-        console.log('RETROno')
         return
       }
       console.log(fallback)

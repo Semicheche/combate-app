@@ -91,7 +91,7 @@ module.exports = configure(function (/* ctx */) {
     devServer: {
       https: false,
       open: true, // opens browser window automatically
-      https: {
+      options: {
         // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
         key: privateKey, // 'C:/CombateAPP/Qprivate.key',
         // pfx: "/path/to/server.pfx",

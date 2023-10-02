@@ -9,6 +9,7 @@
             <q-table
               flat bordered
               title="Estoque Filiais"
+              dense
               virtual-scroll
               :rows="detalhes.produtosEstoque"
               :columns="detalhes.produtosEstoqueCol"
