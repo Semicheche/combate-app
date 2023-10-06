@@ -17,14 +17,13 @@
 </template>
 
 <script lang="ts">
-// import { Todo, Meta } from 'components/models'
-// import ExampleComponent from 'components/ExampleComponent.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'IndexPage',
   data () {
     return {
+      login: localStorage.getItem('login'),
       empresa: localStorage.logo ? localStorage.logo : 'combate'
     }
   }

@@ -5,7 +5,7 @@ import {
   createWebHashHistory,
   createWebHistory
 } from 'vue-router'
-import { inject } from 'vue'
+// import { inject } from 'vue'
 
 import routes from './routes'
 
@@ -34,7 +34,7 @@ export default route(function (/* { store, ssrContext } */) {
   })
   Router.beforeEach(async (to, from) => {
     // canUserAccess() returns `true` or `false`
-    console.log(inject('isloging'))
+    console.log(localStorage.getItem('usuario'))
     console.log(to)
     console.log(from)
   })

@@ -64,7 +64,7 @@
     </q-page-container>
     <div class=" fixed-bar full-width " v-if="isloging && $q.platform.is.mobile">
     <q-btn-group spread>
-      <!-- <q-btn color="orange" :hidden="true" label="" icon="dashboard" style="min-height: 50px;" to="/dashboard" ></q-btn> -->
+      <q-btn color="orange" :hidden="true" label="" icon="leaderboard" style="min-height: 50px;" to="/dashboard" ></q-btn>
       <q-btn color="orange" label="" icon="home" to="/" style="min-height: 50px;"></q-btn>
       <q-btn color="orange" label="" icon="qr_code" to="/scanner"></q-btn>
     </q-btn-group>
@@ -91,9 +91,9 @@ const linksList = [
     link: '/scanner'
   },
   {
-    title: 'Dashboard',
-    caption: 'Consuta vendas e Resultados',
-    icon: 'dashboard',
+    title: 'Minhas Vendas',
+    caption: 'Consuta vendas por vendedor',
+    icon: 'leaderboard',
     link: 'dashboard'
   }
 
@@ -135,6 +135,7 @@ export default defineComponent({
       logout () {
         isloging.value = !isloging.value
         provide('isloging', isloging)
+        localStorage.setItem('login', 'false')
         this.$router.push('/login')
       }
     }

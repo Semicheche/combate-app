@@ -136,11 +136,6 @@ export default {
         })
     },
 
-    // formatPrice (value) {
-    //   const val = (value / 1).toFixed(2).replace('.', ',')
-    //   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-    // },
-
     closeDialog (payload) {
       this.codigo = payload.codigo.value
       this.alert = false

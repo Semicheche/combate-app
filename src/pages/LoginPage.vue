@@ -98,12 +98,16 @@ export default defineComponent({
           // alert('aqui res')
           if (response.data.filial != null) {
             this.isloging = !this.isloging
-            codigo.value = response.data.codgio
+            codigo.value = response.data.codigo
             filial.value = response.data.filial
             grupo.value = response.data.grupo
 
+            localStorage.setItem('filial', response.data.filial)
+            localStorage.setItem('grupo', response.data.grupo)
+            localStorage.setItem('codigo', response.data.codigo)
             localStorage.setItem('usuario', usuario.value)
             localStorage.setItem('pwd', senha.value)
+            localStorage.setItem('login', 'true')
             this.encriptyPass()
 
             provide('isloging', this.isloging)
