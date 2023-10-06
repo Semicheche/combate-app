@@ -309,6 +309,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import DialogProduct from 'src/components/DialogProduct.vue'
+import ServerUrl from 'src/config/serverUrl'
 import axios from 'axios'
 
 export default defineComponent({
@@ -395,15 +396,8 @@ export default defineComponent({
     DialogProduct
   },
   methods: {
-    serverUrl () {
-      // Não sei pq o json Stringfy fode com a String e não consegui resolver enetão removi as " duplas da string
-      const backendServer = process.env.BACKEND_SERVER ? process.env.BACKEND_SERVER.replaceAll('"', '') : ''
-      const port = process.env.BACKEND_PORT ? process.env.BACKEND_PORT.replaceAll('"', '') : ''
-
-      return `${backendServer}:${port}`
-    },
     async getProduto () {
-      const url = this.serverUrl() + '/HostCombateAPP/ConsultaProdutos?consultar=' + this.$route.params.codigo
+      const url = ServerUrl() + '/HostCombateAPP/ConsultaProdutos?consultar=' + this.$route.params.codigo
       await axios.get(url)
         .then((response) => {
           this.produto = { ...response.data[0] }
@@ -416,7 +410,7 @@ export default defineComponent({
     },
 
     async getProdutoFichaTecnica () {
-      const url = this.serverUrl() + '/HostCombateAPP/ConsultaFichaTecnica?consultar=' + this.codigo
+      const url = ServerUrl() + '/HostCombateAPP/ConsultaFichaTecnica?consultar=' + this.codigo
 
       await axios.get(url)
         .then((response) => {
@@ -428,7 +422,7 @@ export default defineComponent({
 
     async getConsultaSaldos () {
       this.estoqueFilial.produtosEstoque = []
-      const url = this.serverUrl() + '/HostCombateAPP/ConsultaSaldosPorProduto?produto=' + this.codigo
+      const url = ServerUrl() + '/HostCombateAPP/ConsultaSaldosPorProduto?produto=' + this.codigo
 
       await axios.get(url)
         .then((response) => {

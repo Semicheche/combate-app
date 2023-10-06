@@ -73,6 +73,7 @@
 import BarcodeReader from 'src/components/BarcodeReader.vue'
 import Loading from 'vue-loading-overlay'
 import { ref, inject } from 'vue'
+import serverUrl from 'src/config/serverUrl'
 import axios from 'axios'
 
 const fallback = () => {
@@ -113,14 +114,6 @@ export default {
     Loading
   },
   methods: {
-    url_backend () {
-      // Não sei pq o json Stringfy fode com a String e não consegui resolver enetão removi as " duplas da string
-      const backendServer = process.env.BACKEND_SERVER.replaceAll('"', '')
-      const port = process.env.BACKEND_PORT.replaceAll('"', '')
-
-      return `${backendServer}:${port}`
-    },
-
     getListProdutos () {
       this.isLoading = ref(!this.isLoading)
       if (this.codigo == null || this.codigo.trim() === '') {
@@ -130,7 +123,7 @@ export default {
       console.log(resolve)
 
       this.produtos = []
-      const url = this.url_backend() + '/HostCombateAPP/ConsultaProdutos?consultar=' + this.codigo
+      const url = serverUrl() + '/HostCombateAPP/ConsultaProdutos?consultar=' + this.codigo
       console.log(url)
       axios.get(url)
         .then((response) => {

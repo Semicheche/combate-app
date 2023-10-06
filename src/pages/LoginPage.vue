@@ -49,6 +49,7 @@
 <script lang="ts">
 import { defineComponent, ref, inject, provide } from 'vue'
 import axios from 'axios'
+import serverUrl from 'src/config/serverUrl'
 import bycryptjs from 'bcryptjs'
 
 const usuario = ref('')
@@ -58,7 +59,7 @@ const hash = ref(null)
 const codigo = ref(null)
 const filial = ref(null)
 const grupo = ref(null)
-let msg = 'Sem msg'
+const msg = 'Sem msg'
 const msgError = ref(false)
 
 export default defineComponent({
@@ -88,22 +89,9 @@ export default defineComponent({
     }
   },
   methods: {
-    url_backend () {
-      // Não sei pq o json Stringfy fode com a String e não consegui resolver enetão removi as " duplas da string
-      const backendServer = process.env.BACKEND_SERVER ? process.env.BACKEND_SERVER.replaceAll('"', '') : null
-      const port = process.env.BACKEND_PORT ? process.env.BACKEND_PORT.replaceAll('"', '') : null
-
-      if (backendServer == null) {
-        msgError.value = true
-        msg = 'SERVIDOR NÃO ESTA CONFIGURADO VERIFIQUE O SUPORTE'
-        return ''
-      }
-
-      return `${backendServer}:${port}`
-    },
     onSubmit () {
       // SOLUCORPTI&senha=102030
-      const url = this.url_backend() + '/HostCombateAPP/LogarUsuario?usuario=' + usuario.value.toUpperCase() + '&senha=' + senha.value
+      const url = serverUrl() + '/HostCombateAPP/LogarUsuario?usuario=' + usuario.value.toUpperCase() + '&senha=' + senha.value
       // alert(url)
       axios.get(url)
         .then((response) => {
@@ -115,8 +103,8 @@ export default defineComponent({
             grupo.value = response.data.grupo
 
             localStorage.setItem('usuario', usuario.value)
-            localStorage.setItem('senha', senha.value)
-            // this.encriptyPass()
+            localStorage.setItem('pwd', senha.value)
+            this.encriptyPass()
 
             provide('isloging', this.isloging)
             this.$router.push('/')
@@ -141,7 +129,7 @@ export default defineComponent({
 
     getUser () {
       usuario.value = localStorage.getItem('usuario') ? JSON.stringify(localStorage.getItem('usuario')).replaceAll('"', '') : ''
-      senha.value = localStorage.getItem('senha') ? JSON.stringify(localStorage.getItem('senha')).replaceAll('"', '') : ''
+      senha.value = localStorage.getItem('pwd') ? JSON.stringify(localStorage.getItem('pwd')).replaceAll('"', '') : ''
     },
 
     encriptyPass () {

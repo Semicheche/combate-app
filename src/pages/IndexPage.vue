@@ -20,7 +20,7 @@
 // import { Todo, Meta } from 'components/models'
 // import ExampleComponent from 'components/ExampleComponent.vue'
 import { defineComponent } from 'vue'
-console.log(process.env)
+
 export default defineComponent({
   name: 'IndexPage',
   data () {

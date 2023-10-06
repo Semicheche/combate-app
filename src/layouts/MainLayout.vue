@@ -89,13 +89,13 @@ const linksList = [
     caption: 'Consuta de Estoque e Preços',
     icon: 'qr_code_scanner',
     link: '/scanner'
+  },
+  {
+    title: 'Dashboard',
+    caption: 'Consuta vendas e Resultados',
+    icon: 'dashboard',
+    link: 'dashboard'
   }
-  // {
-  //   title: 'Dashboard',
-  //   caption: 'Consuta vendas e Resultados',
-  //   icon: 'dashboard',
-  //   link: 'dashboard'
-  // }
 
 ]
 
