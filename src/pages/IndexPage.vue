@@ -17,14 +17,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import getUser from 'src/config/getUser'
 
 export default defineComponent({
   name: 'IndexPage',
   data () {
     return {
       login: localStorage.getItem('login'),
-      empresa: localStorage.logo ? localStorage.logo : 'combate'
+      empresa: localStorage.logo ? localStorage.logo : 'combate',
+      user: ref(null)
+    }
+  },
+  async beforeCreate () {
+    this.user = await getUser()
+    if (!this.user) {
+      console.log('AQUI sem ususario')
+      this.$router.push('/login')
+    } else {
+      this.$router.push('/')
     }
   }
 })

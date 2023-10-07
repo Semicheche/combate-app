@@ -7,28 +7,28 @@
           <q-form action="https://some-url.com" method="post">
           <div class="row">
             <div class="col-xs-12 col-sm-4 col-md-5">
-              <q-input class="q-pa-md"  v-model="dtInicial" mask="date" :rules="['date']" label="Data Inicial">
+              <q-input class="q-pa-md"  v-model="dtInicial" label="Data Inicial">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy>
-                      <q-date v-model="dtInicial" minimal color="orange" ></q-date>
+                      <q-date v-model="dtInicial" minimal color="orange" mask="DD-MM-YYYY" :locale="myLocale"></q-date>
                     </q-popup-proxy>
                   </q-icon>
                 </template>
               </q-input>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-5">
-              <q-input class="q-pa-md"  v-model="dtFinal" mask="date" :rules="['date']" label="Data Final">
+              <q-input class="q-pa-md"  v-model="dtFinal" label="Data Final">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy>
-                      <q-date v-model="dtFinal" minimal color="orange"></q-date>
+                      <q-date v-model="dtFinal" minimal color="orange" mask="DD-MM-YYYY" :locale="myLocale"></q-date>
                     </q-popup-proxy>
                   </q-icon>
                 </template>
               </q-input>
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-2">
+            <div class="col-xs-12 col-sm-2 col-md-2 q-mt-md">
               <q-btn class="full-width q-ma-md" color="orange" @click="getMetaVendedor">Buscar</q-btn>
             </div>
           </div>
@@ -36,9 +36,9 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12 col-sm-4 col-md-12">
+      <div class="col-xs-12 col-sm-6 col-md-12">
         <q-table
-                flat bordered
+
                 title="Vendas Totais"
                 dense
                 virtual-scroll
@@ -48,7 +48,10 @@
                 row-key="name"
               />
       </div>
-      <div class="col-xs-12 col-sm-4 col-md-12">
+
+      <div class="col-xs-12 col-sm-6 col-md-12 q-mt-md">
+        <q-separator color="black"></q-separator>
+        <p class="q-ma-sm text-center text-h6">Minhas vendas {{ dtInicial }} até {{ dtFinal }}</p>
         <bar-chart  v-if="meta" :data="meta"/>
       </div>
 
@@ -80,7 +83,17 @@ export default defineComponent({
         { name: 'totalCancelamentos', label: 'Cancelamentos', align: 'left', field: 'totalCancelamentos', sortable: true },
         { name: 'totalGeral', label: 'Total', align: 'left', field: 'totalGeral', sortable: true },
         { name: 'diasUteis', label: 'Dias Uteis', align: 'left', field: 'diasUteis', sortable: true }
-      ]
+      ],
+      myLocale: {
+        /* starting with Sunday */
+        days: 'Domingo_Segunda_Terça_Quarta_Quinta_Sexta_Sabado'.split('_'),
+        daysShort: 'Dom_Seg_Ter_Qua_Qui_Sex_Sab'.split('_'),
+        months: 'Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro'.split('_'),
+        monthsShort: 'Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Sep_Out_Nov_Dez'.split('_'),
+        firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+        format24h: true,
+        pluralDay: 'dias'
+      }
     }
   },
   methods: {

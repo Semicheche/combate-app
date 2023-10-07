@@ -153,8 +153,8 @@ export default {
   },
 
   beforeMount () {
-    this.getProdutosLocalStorage()
-    this.isLogin()
+    // this.getProdutosLocalStorage()
+    // this.isLogin()
   }
 
 }

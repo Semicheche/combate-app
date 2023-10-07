@@ -51,6 +51,7 @@ import { defineComponent, ref, inject, provide } from 'vue'
 import axios from 'axios'
 import serverUrl from 'src/config/serverUrl'
 import bycryptjs from 'bcryptjs'
+import { stringify } from 'querystring'
 
 const usuario = ref('')
 const senha = ref('')
@@ -61,6 +62,7 @@ const filial = ref(null)
 const grupo = ref(null)
 const msg = 'Sem msg'
 const msgError = ref(false)
+const user = ref(null)
 
 export default defineComponent({
   // name: 'PageName'
@@ -75,6 +77,7 @@ export default defineComponent({
       hash,
       msg,
       msgError,
+      user,
       isloging: inject('isloging')
     }
   },
@@ -95,7 +98,6 @@ export default defineComponent({
       // alert(url)
       axios.get(url)
         .then((response) => {
-          // alert('aqui res')
           if (response.data.filial != null) {
             this.isloging = !this.isloging
             codigo.value = response.data.codigo
@@ -108,9 +110,17 @@ export default defineComponent({
             localStorage.setItem('usuario', usuario.value)
             localStorage.setItem('pwd', senha.value)
             localStorage.setItem('login', 'true')
-            this.encriptyPass()
 
-            provide('isloging', this.isloging)
+            user.value = {
+              filial: response.data.filial,
+              grupo: response.data.grupo,
+              codigo: response.data.codigo,
+              usuario: usuario.value,
+              login: true
+            }
+
+            this.encriptyPass(user)
+
             this.$router.push('/')
           } else {
             this.msg = usuario.value + ' ' + response.data.mensagem
@@ -136,10 +146,12 @@ export default defineComponent({
       senha.value = localStorage.getItem('pwd') ? JSON.stringify(localStorage.getItem('pwd')).replaceAll('"', '') : ''
     },
 
-    encriptyPass () {
+    encriptyPass (user: any) {
       bycryptjs.hash(this.senha, 10, (err: never, res: never) => {
         if (res != null) {
-          localStorage.setItem('senha', res)
+          user = { senha: res, ...user.value }
+          localStorage.setItem('user', JSON.stringify(user))
+          provide('user', user)
         } else {
           console.log(err)
         }
