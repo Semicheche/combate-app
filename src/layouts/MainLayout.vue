@@ -167,8 +167,6 @@ export default defineComponent({
       logout () {
         login.value = ''
         localStorage.setItem('login', login.value)
-        // localStorage.removeItem('user')
-        // localStorage.removeItem('senha')
         this.user.login = false
         this.$router.push('/login')
       }
@@ -178,7 +176,7 @@ export default defineComponent({
     getUser().then((response) => {
       if (response != null) {
         this.user = ref(response)
-        console.log(this.user.grupo)
+
         if (this.user) {
           if ((this.user.grupo === 1)) {
             this.Menus.pop()
