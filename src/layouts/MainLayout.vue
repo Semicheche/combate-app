@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr lFf">
     <q-header>
       <q-toolbar class="bg-orange text-white">
-        <q-btn v-if="user != null"
+        <q-btn v-if="login != ''"
           flat
           dense
           round
@@ -13,7 +13,8 @@
         <q-toolbar-title>
           Combate App
         </q-toolbar-title>
-        <q-btn v-if="user"
+
+        <q-btn v-if="login != ''"
           flat
           dense
           round
@@ -23,7 +24,7 @@
         />
       </q-toolbar>
     </q-header>
-    <q-drawer v-if="user != null"
+    <q-drawer v-if="login != ''"
       v-model="leftDrawerOpen"
       show-if-above
       bordered
@@ -37,7 +38,7 @@
           </q-avatar>
         </q-item-section>
 
-        <q-item-section v-if="user != null">
+        <q-item-section v-if="login != ''">
           <q-item-label>{{ user.usuario }}</q-item-label>
           <q-item-label  caption>{{ grupos[user.grupo] }}</q-item-label>
         </q-item-section>
@@ -61,7 +62,7 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-    <div class=" fixed-bar full-width " v-if="user && $q.platform.is.mobile">
+    <div class=" fixed-bar full-width " v-if="login != '' && $q.platform.is.mobile">
     <q-btn-group spread>
       <q-btn color="orange" :hidden="true" label="" icon="leaderboard" style="min-height: 50px;" to="/dashboard" ></q-btn>
       <q-btn color="orange" label="" icon="home" to="/" style="min-height: 50px;"></q-btn>
@@ -125,9 +126,8 @@ const linksList = [
     title: 'Vendas Vendedores',
     caption: 'Analise vendas por vendedor',
     icon: 'person_search',
-    link: 'vendas'
+    link: '/vendas'
   }
-
 ]
 
 export default defineComponent({
@@ -142,6 +142,7 @@ export default defineComponent({
     const rightDrawerOpen = ref(false)
     const usuario = ref(localStorage.getItem('ususario'))
     const grupo = ref(localStorage.getItem('grupo'))
+    const login = ref(localStorage.getItem('login'))
 
     return {
       user: getUser(),
@@ -149,6 +150,7 @@ export default defineComponent({
       grupos,
       leftDrawerOpen,
       rightDrawerOpen,
+      login,
       $q: useQuasar(),
       toggleRightDrawer () {
         rightDrawerOpen.value = !rightDrawerOpen.value
@@ -163,8 +165,9 @@ export default defineComponent({
       },
 
       logout () {
-        // localStorage.setItem('login', 'false')
-        localStorage.removeItem('user')
+        login.value = ''
+        localStorage.setItem('login', login.value)
+        // localStorage.removeItem('user')
         // localStorage.removeItem('senha')
         this.user.login = false
         this.$router.push('/login')
@@ -173,17 +176,38 @@ export default defineComponent({
   },
   beforeCreate () {
     getUser().then((response) => {
-      console.log('AQUI AWAIT ')
-      this.user = response
-      console.log(response)
+      if (response != null) {
+        this.user = ref(response)
+        console.log(this.user.grupo)
+        if (this.user) {
+          if ((this.user.grupo === 1)) {
+            this.Menus.pop()
+          }
+          if ((this.user.grupo === 0)) {
+            this.Menus.push(
+              {
+                title: 'Configurações APP',
+                caption: 'T.I.',
+                icon: 'settings_applications',
+                link: '/setup'
+              }
+            )
+          }
+        }
+      }
     })
-    console.log(this.user)
-    if (this.user) {
-      if (!(this.user.grupo in ['4', '15'])) {
-        this.Menus.pop()
+  },
+  watch: {
+    async $route (to) {
+      if (to.name === 'index') {
+        const u = await getUser()
+
+        this.user.value = ref(u)
+        location.reload()
       }
     }
   }
+
 })
 </script>
 <style>

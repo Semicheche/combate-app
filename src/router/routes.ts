@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
     redirect: { name: 'login' },
     children: [
       { name: 'login', path: '/login', component: () => import('pages/LoginPage.vue') },
-      { name: 'index', path: '/', component: () => import('pages/IndexPage.vue') },
+      { name: 'index', path: '/', component: () => import('pages/IndexPage.vue'), props: true },
       { name: 'scanner', path: 'scanner', component: () => import('pages/ScannerPage.vue') },
       { name: 'dashboard', path: 'dashboard', component: () => import('pages/DashboardPage.vue') },
       { name: 'setup', path: 'setup', component: () => import('pages/SetupPage.vue') },

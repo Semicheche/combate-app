@@ -6,7 +6,7 @@ import {
   createWebHistory
 } from 'vue-router'
 // import { inject } from 'vue'
-import getUser from 'src/config/getUser'
+// import getUser from 'src/config/getUser'
 
 import routes from './routes'
 
