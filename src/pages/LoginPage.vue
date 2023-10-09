@@ -47,10 +47,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, provide } from 'vue'
+import { defineComponent, ref } from 'vue'
 import axios from 'axios'
 import serverUrl from 'src/config/serverUrl'
-import bycryptjs from 'bcryptjs'
 
 const usuario = ref('')
 const senha = ref('')
@@ -61,6 +60,8 @@ const filial = ref(null)
 const grupo = ref(null)
 const msg = 'Sem msg'
 const msgError = ref(false)
+const pwdEncript = ref(null)
+const user = ref(null)
 
 export default defineComponent({
   // name: 'PageName'
@@ -75,7 +76,9 @@ export default defineComponent({
       hash,
       msg,
       msgError,
-      isloging: inject('isloging')
+      user,
+      pwdEncript,
+      login: ref(null)
     }
   },
   watch: {
@@ -95,22 +98,26 @@ export default defineComponent({
       // alert(url)
       axios.get(url)
         .then((response) => {
-          // alert('aqui res')
           if (response.data.filial != null) {
-            this.isloging = !this.isloging
             codigo.value = response.data.codigo
             filial.value = response.data.filial
             grupo.value = response.data.grupo
-
-            localStorage.setItem('filial', response.data.filial)
-            localStorage.setItem('grupo', response.data.grupo)
-            localStorage.setItem('codigo', response.data.codigo)
+            localStorage.setItem('grupo', grupo.value)
             localStorage.setItem('usuario', usuario.value)
             localStorage.setItem('pwd', senha.value)
             localStorage.setItem('login', 'true')
-            this.encriptyPass()
 
-            provide('isloging', this.isloging)
+            user.value = {
+              filial: response.data.filial,
+              grupo: grupo.value,
+              codigo: response.data.codigo,
+              usuario: usuario.value,
+              login: true,
+              senha: senha.value
+            }
+            console.log(user.value)
+            localStorage.setItem('user', JSON.stringify(user.value))
+
             this.$router.push('/')
           } else {
             this.msg = usuario.value + ' ' + response.data.mensagem
@@ -118,7 +125,6 @@ export default defineComponent({
             this.msg = response.data.mensagem
           }
         }).catch((error) => {
-          // alert(error)
           if (error) {
             this.msg = usuario.value + ' Sem Acesso \n Verifique a senha ou o Usuario e tente novamente.'
             msgError.value = !msgError.value
@@ -129,25 +135,12 @@ export default defineComponent({
       if (this.remember) {
         console.log(usuario.value)
       }
-    },
-
-    getUser () {
-      usuario.value = localStorage.getItem('usuario') ? JSON.stringify(localStorage.getItem('usuario')).replaceAll('"', '') : ''
-      senha.value = localStorage.getItem('pwd') ? JSON.stringify(localStorage.getItem('pwd')).replaceAll('"', '') : ''
-    },
-
-    encriptyPass () {
-      bycryptjs.hash(this.senha, 10, (err: never, res: never) => {
-        if (res != null) {
-          localStorage.setItem('senha', res)
-        } else {
-          console.log(err)
-        }
-      })
     }
+
   },
-  beforeMount () {
-    this.getUser()
+  beforeCreate () {
+    usuario.value = localStorage.getItem('usuario')
+    senha.value = localStorage.getItem('pwd')
   }
 })
 </script>

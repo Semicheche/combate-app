@@ -6,6 +6,7 @@ import {
   createWebHistory
 } from 'vue-router'
 // import { inject } from 'vue'
+// import getUser from 'src/config/getUser'
 
 import routes from './routes'
 
@@ -32,12 +33,18 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
-  Router.beforeEach(async (to, from) => {
-    // canUserAccess() returns `true` or `false`
-    console.log(localStorage.getItem('usuario'))
-    console.log(to)
-    console.log(from)
-  })
+  // Router.beforeEach(async (to, from, next) => {
+  //   // canUserAccess() returns `true` or `false`
+  //   const user = getUser()
+  //   if (!user) {
+  //     next(to)
+  //   } else {
+  //     next(from)
+  //   }
+  //   console.log(to)
+  //   console.log(from)
+  //   console.log(user)
+  // })
 
   return Router
 })

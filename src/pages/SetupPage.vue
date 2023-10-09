@@ -1,16 +1,16 @@
 <template>
-  <q-page v-if="usuario == 'SOLUCOPRTI'">
+  <q-page>
     <SetupConfig />
   </q-page>
 </template>
 
 <script lang="ts">
 import SetupConfig from 'src/components/SetupConfig.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 export default defineComponent({
   setup () {
     return {
-      usuario: localStorage.getItem('usuario')
+      user: ref(null)
     }
   },
   components: {
