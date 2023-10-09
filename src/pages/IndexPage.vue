@@ -17,14 +17,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import getUser from 'src/config/getUser'
 
 export default defineComponent({
   name: 'IndexPage',
   data () {
     return {
       login: localStorage.getItem('login'),
-      empresa: localStorage.logo ? localStorage.logo : 'combate'
+      empresa: localStorage.logo ? localStorage.logo : 'combate',
+      user: ref(null)
+    }
+  },
+  beforeCreate () {
+    if (localStorage.getItem('login') === '') {
+      this.$router.push('/login')
     }
   }
 })
