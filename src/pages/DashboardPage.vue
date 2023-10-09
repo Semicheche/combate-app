@@ -76,7 +76,7 @@ export default defineComponent({
     return {
       dtInicial: ref(null),
       dtFinal: ref(null),
-      usuario: localStorage.getItem('codigo'),
+      usuario: localStorage.getItem('codUsuario'),
       meta: ref({}),
       metaCol: [
         { name: 'totalVendas', label: 'Vendas', align: 'left', field: 'totalVendas', sortable: true },

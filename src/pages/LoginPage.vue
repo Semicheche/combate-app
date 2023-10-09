@@ -104,6 +104,7 @@ export default defineComponent({
             grupo.value = response.data.grupo
             localStorage.setItem('grupo', grupo.value)
             localStorage.setItem('usuario', usuario.value)
+            localStorage.setItem('codUsuario', codigo.value)
             localStorage.setItem('pwd', senha.value)
             localStorage.setItem('login', 'true')
 
@@ -115,7 +116,7 @@ export default defineComponent({
               login: true,
               senha: senha.value
             }
-            console.log(user.value)
+
             localStorage.setItem('user', JSON.stringify(user.value))
 
             this.$router.push('/')
