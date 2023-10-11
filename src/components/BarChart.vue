@@ -8,14 +8,14 @@
 
 <script>
 import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, PointElement, LineElement)
 // '#E46651', '#00D8FF'
 
 export default {
   name: 'BarChart',
-  props: ['data'],
+  props: ['data', 'options'],
   components: { Bar },
   data () {
     return {
@@ -24,63 +24,31 @@ export default {
         datasets: [
           {
             data: [0],
-            label: 'Total Vendas',
+            label: '-',
             backgroundColor: '#00D8FF'
           },
           {
             data: [0],
-            label: 'Total Geral',
+            label: '-',
             backgroundColor: '#41B883'
           },
           {
             data: [0],
-            label: 'Total Cancelamentos',
+            label: '-',
             backgroundColor: '#E46651'
           }
 
         ]
       },
-      chartOptions: {
-        responsive: true,
-        scales: {
-          x: {
-
-            grid: {
-              offset: true
-            }
-          },
-          y: {
-            stacked: false
-          }
-        }
-      }
+      chartOptions: {}
     }
   },
   watch: {
     data (novaData) {
-      console.log('aqui')
-      console.log(novaData)
-      this.chartData = {
-        labels: ['Metas Total'],
-        datasets: [
-          {
-            data: [novaData.totalVendas],
-            label: 'Vendas',
-            backgroundColor: '#00D8FF'
-          },
-          {
-            data: [novaData.totalGeral],
-            label: 'Geral',
-            backgroundColor: '#41B883'
-          },
-          {
-            data: [novaData.totalCancelamentos],
-            label: 'Cancelamentos',
-            backgroundColor: '#E46651'
-          }
-
-        ]
-      }
+      this.chartData = novaData
+    },
+    options (novoOpt) {
+      this.chartOptions = novoOpt
     }
   }
 }

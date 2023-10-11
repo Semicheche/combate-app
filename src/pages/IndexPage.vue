@@ -18,7 +18,6 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import getUser from 'src/config/getUser'
 
 export default defineComponent({
   name: 'IndexPage',
